@@ -6,7 +6,7 @@ import NumberContainer from '../components/NumberContainer';
 import Colors from '../constans/Colors';
 
 interface StartGameScreenProps {
-
+    onStartGame: (number: number | undefined) => void;
 }
 
 interface IColors {
@@ -59,7 +59,7 @@ const StartGameScreen = (props: StartGameScreenProps) => {
                     <Button
                         title={'Start Game'}
                         color={Colors.primary}
-                        onPress={() => console.log('start')}
+                        onPress={() => props.onStartGame(selectedNumber)}
                     />
                 </View>
             </Card>
