@@ -1,14 +1,32 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
+import * as Font from 'expo-font';
+import { AppLoading } from 'expo';
 import Header from './components/Header';
 import StartGameScreen from './screens/StartGameScreen';
 import GameScreen from './screens/GameScreen';
 import GameOverScreen from './screens/GameOverScreen';
 
+const fetchFonts = () => {
+    return Font.loadAsync({
+        'Lato-Regular': require('./assets/fonts/Lato-Regular.ttf'),
+        'Lato-Bold': require('./assets/fonts/Lato-Bold.ttf')
+    })
+}
+
 export default function App() {
     const [userNumber, setUserNumber] = useState();
     const [numberOfRounds, setNumberOfRounds] = useState(0);
     const [isNewGame, setIsNewGame] = useState(false);
+    const [isDataLoaded, setIsDataLoaded] = useState(false);
+
+    if (!isDataLoaded) {
+        return (<AppLoading
+            startAsync={fetchFonts}
+            onFinish={() => setIsDataLoaded(true)}
+            onError={() => console.log('error')}
+        />);
+    }
 
     const configureNewGameHandler = () => {
         setIsNewGame(true)

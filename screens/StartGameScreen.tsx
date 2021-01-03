@@ -117,7 +117,8 @@ const styles = StyleSheet.create({
         fontSize: 20,
         marginVertical: 5,
         textAlign: 'center',
-        marginBottom: 30
+        marginBottom: 30,
+        fontFamily: 'Lato-Bold'
     },
     textInput: {
         marginBottom: 20,
