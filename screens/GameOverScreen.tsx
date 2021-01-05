@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Button, Image } from 'react-native';
 import DefaultStyles from '../constans/DefaultStyles';
+import Colors from '../constans/Colors';
 
 interface IGameOverScreen {
     numberOfRounds: number,
@@ -23,8 +24,8 @@ const GameOverScreen = (props: IGameOverScreen) => {
                     fadeDuration={1000}
                 />
             </View>
-            <Text style={DefaultStyles.bodyText}>Number of rounds: {props.numberOfRounds}</Text>
-            <Text style={DefaultStyles.bodyText}>Number was: {props.userNumber}</Text>
+            <Text style={DefaultStyles.bodyText}>Your phone needed <Text style={styles.highlight}>{props.numberOfRounds}</Text> rounds</Text>
+            <Text style={DefaultStyles.bodyText}>to guess the number <Text style={styles.highlight}>{props.userNumber}</Text>.</Text>
             <Button title="NEW GAME" onPress={props.newGame} />
         </View>
     );
@@ -48,6 +49,11 @@ const styles = StyleSheet.create({
     image: {
         width: '100%',
         height: '100%'
+    },
+    highlight: {
+        color: Colors.primary,
+        fontFamily: 'Lato-Bold',
+        fontSize: 20
     }
 })
 
