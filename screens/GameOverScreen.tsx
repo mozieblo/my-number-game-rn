@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, StyleSheet, Button } from 'react-native';
+import DefaultStyles from '../constans/DefaultStyles';
 
 interface IGameOverScreen {
     numberOfRounds: number,
@@ -10,9 +11,9 @@ interface IGameOverScreen {
 const GameOverScreen = (props: IGameOverScreen) => {
     return (
         <View style={styles.screen}>
-            <Text>The Game is Over!</Text>
-            <Text>Number of rounds: {props.numberOfRounds}</Text>
-            <Text>Number was: {props.userNumber}</Text>
+            <Text style={DefaultStyles.bodyText}>The Game is Over!</Text>
+            <Text style={DefaultStyles.bodyText}>Number of rounds: {props.numberOfRounds}</Text>
+            <Text style={DefaultStyles.bodyText}>Number was: {props.userNumber}</Text>
             <Button title="NEW GAME" onPress={props.newGame} />
         </View>
     );

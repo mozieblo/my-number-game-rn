@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, Button, Alert} from 'react-native';
 import NumberContainer from '../components/NumberContainer';
 import Card from '../components/Card';
 import Colors from '../constans/Colors';
+import DefaultStyles from '../constans/DefaultStyles';
 
 interface IGameScreenProps {
     userChoice: number | undefined,
@@ -65,7 +66,7 @@ const GameScreen = (props: IGameScreenProps) => {
     return (
         <View style={styles.screen}>
             <Card style={styles.container}>
-                <Text style={styles.text}>Opponent's Guess</Text>
+                <Text style={{...styles.text, ...DefaultStyles.bodyText}}>Opponent's Guess</Text>
                 <NumberContainer>{currentGuess}</NumberContainer>
                 <View style={styles.gameScreenCard}>
                     <Button

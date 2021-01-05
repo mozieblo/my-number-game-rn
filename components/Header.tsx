@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import Colors from '../constans/Colors';
+import DefaultStyles from '../constans/DefaultStyles';
 
 interface HeaderProps {
     title: string
@@ -9,7 +10,7 @@ interface HeaderProps {
 const Header = (props: HeaderProps) => {
     return (
         <View style={styles.header}>
-            <Text style={styles.headerTitle}>
+            <Text style={{...styles.headerTitle, ...DefaultStyles.title}}>
                 {props.title}
             </Text>
         </View>
