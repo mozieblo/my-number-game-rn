@@ -14,9 +14,13 @@ const GameOverScreen = (props: IGameOverScreen) => {
             <Text style={DefaultStyles.title}>The Game is Over!</Text>
             <View style={styles.imageContainer}>
                 <Image
-                    source={require('../assets/tower.jpg')}
+                    // locale
+                    // source={require('../assets/tower.jpg')}
+                    // online
+                    source={{uri: 'https://cdn.pixabay.com/photo/2014/04/03/10/22/mountain-310231_1280.png'}}
                     style={styles.image}
                     resizeMode="cover"
+                    fadeDuration={1000}
                 />
             </View>
             <Text style={DefaultStyles.bodyText}>Number of rounds: {props.numberOfRounds}</Text>
