@@ -3,6 +3,7 @@ import {StyleSheet, View, Text, Button, TouchableWithoutFeedback, Keyboard, Aler
 import Card from '../components/Card';
 import Input from '../components/Input';
 import NumberContainer from '../components/NumberContainer';
+import MainButton from '../components/MainButton';
 import Colors from '../constans/Colors';
 import DefaultStyles from '../constans/DefaultStyles';
 
@@ -57,11 +58,9 @@ const StartGameScreen = (props: StartGameScreenProps) => {
                         style={{...styles.textStartGame, ...DefaultStyles.bodyText}}
                     >Selected number is:</Text>
                     <NumberContainer>{selectedNumber}</NumberContainer>
-                    <Button
-                        title={'Start Game'}
-                        color={Colors.primary}
+                    <MainButton
                         onPress={() => props.onStartGame(selectedNumber)}
-                    />
+                    >Start Game</MainButton>
                 </View>
             </Card>
         );
@@ -86,20 +85,17 @@ const StartGameScreen = (props: StartGameScreenProps) => {
                         onChangeText={(value: string) => numberInputHandler(value)}
                     />
                     <View style={styles.buttonContainer}>
-                        <View style={styles.button}>
-                            <Button
-                                title="Reset"
-                                onPress={resetInputHandler}
-                                color={Colors.secondary}
-                            />
-                        </View>
-                        <View style={styles.button}>
-                            <Button
-                                title="Confirm"
-                                onPress={confirmInputHandler}
-                                color={Colors.primary}
-                            />
-                        </View>
+                        <MainButton
+                            onPress={resetInputHandler}
+                            style={styles.button}
+                        >
+                            Reset
+                        </MainButton>
+                        <MainButton
+                            onPress={confirmInputHandler}
+                        >
+                            Confirm
+                        </MainButton>
                     </View>
                 </Card>
                 {confirmedOutput}
@@ -134,10 +130,11 @@ const styles = StyleSheet.create({
     buttonContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        width: '100%'
+        width: '80%'
     },
     button: {
-       width: 100
+       // width: 100,
+       backgroundColor: Colors.secondary
     },
     startGame: {
        padding: 30,
