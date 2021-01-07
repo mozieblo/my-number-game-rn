@@ -32,7 +32,8 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: '#fff',
-        fontFamily: 'Lato-Bold'
+        fontFamily: 'Lato-Bold',
+        textAlign: 'center'
     }
 })
 

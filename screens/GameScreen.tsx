@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, Fragment } from 'react';
-import {View, Text, StyleSheet, Button, Alert, ScrollView} from 'react-native';
+import {View, Text, StyleSheet, Button, Alert, ScrollView, Dimensions} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import NumberContainer from '../components/NumberContainer';
 import Card from '../components/Card';
@@ -12,15 +12,11 @@ interface IGameScreenProps {
     onNumberRound: (number: number) => void;
 }
 
-const generateRandomBetween = (min: number, max: number, exclude: number | undefined) => {
+const generateRandomBetween = (min: number, max: number, exclude?: number): number => {
     min = Math.ceil(min);
     max = Math.floor(max);
     const rndNum = Math.floor(Math.random() * ( max-min )) + min;
-    if (rndNum === exclude) {
-        return generateRandomBetween(min, max, exclude);
-    } else {
-        return rndNum;
-    }
+    return rndNum === exclude ? generateRandomBetween(min, max, exclude) : rndNum;
 };
 
 // let currentLow = 1;
@@ -46,11 +42,24 @@ const GameScreen = (props: IGameScreenProps) => {
     const initialGuess = generateRandomBetween(1,100, props.userChoice);
     const [currentGuess, setCurrentGuess] = useState(initialGuess);
     const [rounds, setRounds] = useState(0);
-    const [listOfNumberGuess, setListOfNumberGuess] = useState([initialGuess])
+    const [listOfNumberGuess, setListOfNumberGuess] = useState([initialGuess]);
+    const [ currentDeviceHeight, setCurrentDeviceHeight ] = useState(Dimensions.get('window').height);
     const currentLow = useRef(1);
     const currentHigh = useRef(100);
 
     const { userChoice, onNumberRound } = props;
+
+    useEffect(() => {
+        const updateLayout = () => {
+            setCurrentDeviceHeight(Dimensions.get('window').height);
+        }
+
+        Dimensions.addEventListener('change', updateLayout)
+
+        return () => {
+            Dimensions.removeEventListener('change', updateLayout)
+        }
+    })
 
     useEffect(() => {
         if (currentGuess === props.userChoice) {
@@ -58,6 +67,28 @@ const GameScreen = (props: IGameScreenProps) => {
             console.log('onNumber: ', onNumberRound)
         }
     }, [currentGuess, userChoice, onNumberRound])
+
+    const horizontalDevice = () => {
+        return (
+            <Card style={styles.container}>
+                <Text style={{...styles.text, ...DefaultStyles.bodyText}}>Opponent's Guess</Text>
+                <View style={styles.gameScreenCard}>
+                    <MainButton
+                        style={styles.secondary}
+                        onPress={nextGuessHandler.bind(this, 'lower')}
+                    >
+                        <Ionicons name="remove" size={24} color="white" />
+                    </MainButton>
+                    <NumberContainer>{currentGuess}</NumberContainer>
+                    <MainButton
+                        onPress={nextGuessHandler.bind(this, 'greater')}
+                    >
+                        <Ionicons name="add" size={24} color="white" />
+                    </MainButton>
+                </View>
+            </Card>
+        );
+    }
 
     const nextGuessHandler = (direction: string) => {
         if ((direction === 'lower' && currentGuess < props.userChoice) || (direction === 'greater' && currentGuess > props.userChoice)) {
@@ -86,23 +117,27 @@ const GameScreen = (props: IGameScreenProps) => {
 
     return (
         <View style={styles.screen}>
-            <Card style={styles.container}>
-                <Text style={{...styles.text, ...DefaultStyles.bodyText}}>Opponent's Guess</Text>
-                <NumberContainer>{currentGuess}</NumberContainer>
-                <View style={styles.gameScreenCard}>
-                    <MainButton
-                        style={styles.secondary}
-                        onPress={nextGuessHandler.bind(this, 'lower')}
-                    >
-                        <Ionicons name="remove" size={24} color="white" />
-                    </MainButton>
-                    <MainButton
-                        onPress={nextGuessHandler.bind(this, 'greater')}
-                    >
-                        <Ionicons name="add" size={24} color="white" />
-                    </MainButton>
-                </View>
-            </Card>
+            {currentDeviceHeight < 500 ? (
+                horizontalDevice()
+            ) : (
+                <Card style={styles.container}>
+                    <Text style={{...styles.text, ...DefaultStyles.bodyText}}>Opponent's Guess</Text>
+                    <NumberContainer>{currentGuess}</NumberContainer>
+                    <View style={styles.gameScreenCard}>
+                        <MainButton
+                            style={styles.secondary}
+                            onPress={nextGuessHandler.bind(this, 'lower')}
+                        >
+                            <Ionicons name="remove" size={24} color="white" />
+                        </MainButton>
+                        <MainButton
+                            onPress={nextGuessHandler.bind(this, 'greater')}
+                        >
+                            <Ionicons name="add" size={24} color="white" />
+                        </MainButton>
+                    </View>
+                </Card>
+            )}
             <View style={styles.listContainer}>
                 <ScrollView contentContainerStyle={styles.list}>
                     {listOfNumberGuess.map((guess: number, index: number) => renderListOfGuess(guess, listOfNumberGuess.length - index))}
